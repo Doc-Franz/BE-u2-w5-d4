@@ -1,7 +1,8 @@
 package com.example.springDataRestaurant.model;
 
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import lombok.*;
 
@@ -9,20 +10,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Data
+@DiscriminatorValue("pizza")
 public class Pizza extends Article{
 
-  //Topping topping;
+    @ManyToMany(mappedBy = "pizzaList")
+    List<Topping> toppingList;
 
     public Pizza(String name, int calories, double price) {
         super(name, calories, price);
-        //this.topping = null;
+        this.toppingList = new ArrayList<Topping>();
     }
 
     public void addTopping(Topping topping){
-        this.topping = topping;
+        this.toppingList.add(topping);
     }
 }

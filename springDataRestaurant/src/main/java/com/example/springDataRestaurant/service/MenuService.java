@@ -1,6 +1,8 @@
 package com.example.springDataRestaurant.service;
 
 import com.example.springDataRestaurant.model.Menu;
+import com.example.springDataRestaurant.model.Pizza;
+import com.example.springDataRestaurant.repository.ArticleDaoRepository;
 import com.example.springDataRestaurant.repository.MenuDaoRepository;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +17,24 @@ public class MenuService {
     ObjectProvider<Menu> menuProvider;
 
     @Autowired
-    MenuDaoRepository db;
+    @Qualifier("pizza margherita")
+    ObjectProvider<Pizza> pizzaProvider;
+
+    @Autowired
+    ArticleDaoRepository db;
+
+    @Autowired
+    MenuDaoRepository menuDaoRepository;
 
     public Menu createMenu(){
         return menuProvider.getObject();
     }
 
-    public void updateMenu(Menu menu){
-        db.save(menu);
-        System.out.println("Menù salvato!");
+    public Pizza createPizza(){
+        return pizzaProvider.getObject();
+    }
+
+    public void saveMenu(Menu m){
+        menuDaoRepository.save(m);
     }
 }

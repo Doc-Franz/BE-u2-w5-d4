@@ -1,21 +1,32 @@
 package com.example.springDataRestaurant.model;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "menù")
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Menu {
 
-    private List<Article> menu;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    public Menu(){
-        this.menu = new ArrayList<Article>();
-    }
+    @OneToMany(mappedBy = "menu")
+    private List<Article> menuList = new ArrayList<Article>();
 
     public void addToMenu(Article article){
-        this.menu.add(article);
+        this.menuList.add(article);
     }
 
     public void printMenu(){
-        menu.forEach(ele -> System.out.println("name: " + ele.getName() + ", calories: " + ele.getCalories() + ", price: " + ele.getPrice() + "€"));
+        menuList.forEach(ele -> System.out.println("name: " + ele.getName() + ", calories: " + ele.getCalories() + ", price: " + ele.getPrice() + "€"));
     }
 }

@@ -6,18 +6,24 @@ import lombok.*;
 @Entity
 @Table(name = "articles")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "product_type")
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 
 public abstract class Article {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    protected long id;
     protected String name;
     protected int calories;
     protected double price;
 
-    public Article(){};
+    @ManyToOne
+    @JoinColumn(name = "menu_id")
+    protected Menu menu;
 
     public Article(String name, int calories, double price) {
         this.name = name;
